@@ -35,15 +35,15 @@ else
 	MSG="$MSG,\"level\":$LEVEL"
 
 	for variable in `cat variables-diff`; do
-		LAST=`grep "$variable\t" status.last | cut -f 2`
-		CURRENT=`grep "$variable\t" status.current | cut -f 2`
+		LAST=`grep "$variable\s" status.last | cut -f 2`
+		CURRENT=`grep "$variable\s" status.current | cut -f 2`
 
 		DIFF=$((CURRENT - LAST))
 		MSG="$MSG,\"_$variable\":$DIFF"
 	done
 
 	for variable in `cat variables-abs`; do
-		VALUE=`grep "$variable\t" status.current | cut -f 2`
+		VALUE=`grep "$variable\s" status.current | cut -f 2`
 		MSG="$MSG,\"_$variable\":$VALUE"
 	done
 
