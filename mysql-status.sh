@@ -4,6 +4,8 @@
 # For variables description, see
 # https://dev.mysql.com/doc/refman/5.1/en/server-status-variables.html
 #
+# TODO
+# * Chunk messages to allow more variables as part of the payload
 
 VERSION="1.1"
 HOST=`hostname`
@@ -34,12 +36,17 @@ else
 	MSG="$MSG,\"timestamp\":$TIMESTAMP"
 	MSG="$MSG,\"level\":$LEVEL"
 
+	UPTIME_LAST=`grep "Uptime\s" status.last | cut -f 2`
+	UPTIME_CURR=`grep "Uptime\s" status.current | cut -f 2`
+	SECONDS=$((UPTIME_CURR - UPTIME_LAST))
+
 	for variable in `cat variables-diff`; do
 		LAST=`grep "$variable\s" status.last | cut -f 2`
 		CURRENT=`grep "$variable\s" status.current | cut -f 2`
 
 		DIFF=$((CURRENT - LAST))
-		MSG="$MSG,\"_$variable\":$DIFF"
+		DIFF_PER_SECOND=`printf "%0.5f\n" $(bc <<< "scale=5; $DIFF/$SECONDS")`
+		MSG="$MSG,\"_${variable}_per_second\":$DIFF_PER_SECOND"
 	done
 
 	for variable in `cat variables-abs`; do
@@ -49,9 +56,8 @@ else
 
 	MSG="$MSG}"
 
-	echo $MSG
-
-	# echo $MSG | nc -w 1 -u $GRAYLOG_SERVER $GRAYLOG_PORT
+	# echo $MSG
+	echo $MSG | gzip -cf | nc -w 1 -u $GRAYLOG_SERVER $GRAYLOG_PORT
 
 	mv status.current status.last
 fi
