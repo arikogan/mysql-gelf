@@ -1,0 +1,11 @@
+Max_used_connections
+Open_files
+Open_streams
+Open_table_definitions
+Open_tables
+Qcache_free_blocks
+Qcache_free_memory
+Threads_cached
+Threads_connected
+Threads_created
+Threads_running
