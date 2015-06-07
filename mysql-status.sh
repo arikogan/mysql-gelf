@@ -8,7 +8,7 @@
 # * Chunk messages to allow more variables as part of the payload
 
 VERSION="1.1"
-HOST=`hostname`
+HOST=`hostname --long`
 MESSAGE="MySQL Status"
 TIMESTAMP=`date +%s`
 LEVEL=1
