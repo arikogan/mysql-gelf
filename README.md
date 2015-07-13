@@ -9,7 +9,7 @@ This bash script aims to provide a data source for MySQL, a mechanism for feedin
 
 An example of how the information is displayed in GrayLog is shown on the screenshot below.
 
-![MySQL information presented in GrayLog](http://11faa93b44aa01547ea0-8c928b431f91d1736760b58735a097ac.r88.cf2.rackcdn.com/static/mysql-gelf-graylog-screenshot.png)
+![MySQL information presented in GrayLog](http://11faa93b44aa01547ea0-8c928b431f91d1736760b58735a097ac.r88.cf2.rackcdn.com/static/mysql-gelf-graylog-screenshot-orig.png)
 
 ## Installation
 
