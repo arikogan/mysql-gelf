@@ -7,6 +7,10 @@ A (very) basic Bash script to send MySQL status information to GrayLog through G
 
 This bash script aims to provide a data source for MySQL, a mechanism for feeding MySQL status information into GrayLog. The script aims to be as simple as possible and requires only bash and some basic commands that should hopefully be installed in any server. Information is transmitted using the [GELF](https://www.graylog.org/resources/gelf-2/) format. The script is triggered by cron. The information to be fed is retrieved through MySQL's `SHOW GLOBAL STATUS` query.
 
+An example of how the information is displayed in GrayLog is shown on the screenshot below.
+
+![MySQL information presented in GrayLog](http://11faa93b44aa01547ea0-8c928b431f91d1736760b58735a097ac.r88.cf2.rackcdn.com/static/mysql-gelf-graylog-screenshot.png)
+
 ## Installation
 
 The installation is compromised of the following steps,
