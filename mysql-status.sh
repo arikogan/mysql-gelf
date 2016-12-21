@@ -15,12 +15,13 @@ LEVEL=1
 
 MYSQL_USER=root
 MYSQL_PASS=admin
+MYSQL_HOST=127.0.0.1
 
 GRAYLOG_SERVER=graylog.fxempiredev.com
 GRAYLOG_PORT=12305
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-STATUS_CMD="echo 'SHOW GLOBAL STATUS;' | mysql -u $MYSQL_USER -p$MYSQL_PASS"
+STATUS_CMD="echo 'SHOW GLOBAL STATUS;' | mysql -u $MYSQL_USER -h$MYSQL_HOST"
 
 cd $DIR
 
@@ -56,8 +57,8 @@ else
 
 	MSG="$MSG}"
 
-	# echo $MSG
-	echo $MSG | gzip -cf | nc -w 1 -u $GRAYLOG_SERVER $GRAYLOG_PORT
+	 echo $MSG
+	#echo $MSG | gzip -cf | nc -w 1 -u $GRAYLOG_SERVER $GRAYLOG_PORT
 
 	mv status.current status.last
 fi
