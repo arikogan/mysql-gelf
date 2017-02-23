@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 #
 # For variables description, see
@@ -8,29 +8,29 @@
 # * Chunk messages to allow more variables as part of the payload
 
 VERSION="1.1"
-HOST=`hostname --long`
 MESSAGE="MySQL Status"
 TIMESTAMP=`date +%s`
 LEVEL=1
 
 MYSQL_USER=root
 MYSQL_PASS=admin
+MYSQL_HOST=sql.server.com
 
-GRAYLOG_SERVER=graylog.fxempiredev.com
+GRAYLOG_SERVER=graylog.server.com
 GRAYLOG_PORT=12305
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-STATUS_CMD="echo 'SHOW GLOBAL STATUS;' | mysql -u $MYSQL_USER -p$MYSQL_PASS"
+STATUS_CMD=$(echo 'SHOW GLOBAL STATUS;' | mysql -u $MYSQL_USER -p$MYSQL_PASS -h $MYSQL_HOST)
 
 cd $DIR
 
 if [ ! -e status.last ]; then
-	eval $STATUS_CMD > status.last
+	echo "$STATUS_CMD" > status.last
 else
-	eval $STATUS_CMD > status.current
+	echo "$STATUS_CMD" > status.current
 
 	MSG="{\"version\": \"$VERSION\""
-	MSG="$MSG,\"host\":\"$HOST\""
+	MSG="$MSG,\"host\":\"$MYSQL_HOST\""
 	MSG="$MSG,\"short_message\":\"$MESSAGE\""
 	# MSG="$MSG,\"full_message\":\"\""
 	MSG="$MSG,\"timestamp\":$TIMESTAMP"
@@ -56,7 +56,6 @@ else
 
 	MSG="$MSG}"
 
-	# echo $MSG
 	echo $MSG | gzip -cf | nc -w 1 -u $GRAYLOG_SERVER $GRAYLOG_PORT
 
 	mv status.current status.last
