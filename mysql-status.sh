@@ -25,9 +25,9 @@ STATUS_CMD=$(echo 'SHOW GLOBAL STATUS;' | mysql -u $MYSQL_USER -p$MYSQL_PASS -h 
 cd $DIR
 
 if [ ! -e status.last ]; then
-	$STATUS_CMD > status.last
+	echo "$STATUS_CMD" > status.last
 else
-	$STATUS_CMD > status.current
+	echo "$STATUS_CMD" > status.current
 
 	MSG="{\"version\": \"$VERSION\""
 	MSG="$MSG,\"host\":\"$MYSQL_HOST\""
